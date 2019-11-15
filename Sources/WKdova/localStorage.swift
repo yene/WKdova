@@ -2,7 +2,6 @@
 import Foundation
 
 // Add key and value to localStorage
-// 0: key, 1: value
 func setItem(key: String, value: String) {
 	print("setitem", key, value)
 	storageSuit().set(value, forKey: key)
@@ -19,7 +18,7 @@ func removeItem(key: String) {
 	storageSuit().removeObject(forKey: key)
 }
 
-// Clear all localStorage
+// Clear localStorage
 func clear() {
 	UserDefaults.standard.removePersistentDomain(forName: "localStorage")
 }
