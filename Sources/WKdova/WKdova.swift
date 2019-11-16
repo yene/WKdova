@@ -81,13 +81,6 @@ extension WKdova: WKScriptMessageHandler {
 			}
 
 		}
-		let flippedHeads = Bool.random()
-		if flippedHeads {
-				self.webView.evaluateJavaScript("document.body.style.backgroundColor = `green`;", completionHandler: nil)
-		} else {
-				self.webView.evaluateJavaScript("document.body.style.backgroundColor = `red`;", completionHandler: nil)
-		}
-
 		/* if message is json, it will be turned into a native object, boolean type is a nsnumber
 			if let messageBody = message.body as? [String: Any], let age = messageBody["age"] as? Int {
 				print("Age: \(age)")
