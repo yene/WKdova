@@ -5,6 +5,7 @@
 
 let deviceJSON = device()
 let appJSON = app()
+let timerDisabled = isIdleTimerDisabled() ? "true" : "false"
 
 // TODO: don't grow callbacks forever
 let injectScript = """
@@ -24,8 +25,10 @@ var callbacks = [];
 
 window.plugins = {
 	insomnia: {
-		keepAwake: callWebKit('keepAwake'),
-		allowSleepAgain: callWebKit('allowSleepAgain'),
+		isEnabled: \(timerDisabled),
+		setEnabled: (state) => {
+			callWebKit('setIdleTimer', state)()
+		}
 	},
 	localStorage: {
 		setItem: (key, value) => {

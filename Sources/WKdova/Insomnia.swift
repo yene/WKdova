@@ -2,10 +2,14 @@
 
 import UIKit
 
-func keepAwake() {
-	UIApplication.shared.isIdleTimerDisabled = true
+func isIdleTimerDisabled() -> Bool {
+	let should = UserDefaults.standard.bool(forKey: "isIdleTimerDisabled")
+	UIApplication.shared.isIdleTimerDisabled = should
+	return should
 }
 
-func allowSleepAgain() {
-	UIApplication.shared.isIdleTimerDisabled = false
+func setIdleTimer(_ b: Bool) {
+	UserDefaults.standard.set(b, forKey: "isIdleTimerDisabled")
+	UIApplication.shared.isIdleTimerDisabled = b
 }
+
