@@ -30,7 +30,7 @@ window.plugins = {
 			callWebKit('setIdleTimer', state)()
 		}
 	},
-	localStorage: {
+	nativeStorage: {
 		setItem: (key, value) => {
 			console.log(key, value);
 			callWebKit('setItem', [key, value])()

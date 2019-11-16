@@ -1,27 +1,27 @@
-// localStorage.swift
+// nativeStorage.swift
 import Foundation
 
-// Add key and value to localStorage
+// Add key and value to nativeStorage
 func setItem(key: String, value: String) {
 	storageSuit().set(value, forKey: key)
 }
 
-// Retrieve a value by the key from localStorage
+// Retrieve a value by the key from nativeStorage
 // returns null if not found
 func getItem(key: String) -> String? {
 	return storageSuit().string(forKey: key)
 }
 
-// Remove an item by key from localStorage
+// Remove an item by key from nativeStorage
 func removeItem(key: String) {
 	storageSuit().removeObject(forKey: key)
 }
 
-// Clear localStorage
+// Clear nativeStorage
 func clear() {
-	UserDefaults.standard.removePersistentDomain(forName: "localStorage")
+	UserDefaults.standard.removePersistentDomain(forName: "nativeStorage")
 }
 
 func storageSuit() -> UserDefaults {
-	return UserDefaults(suiteName: "localStorage")!
+	return UserDefaults(suiteName: "nativeStorage")!
 }
