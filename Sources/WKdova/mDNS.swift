@@ -10,6 +10,7 @@ struct Service: Codable {
 }
 
 var result = ""
+let DEBUG = false
 
 // Browse scans for 6 seconds and then returns the found devices as JSON.
 // params type "_ssh._tcp"
@@ -30,26 +31,39 @@ public func browse(type: String, cb: @escaping (String) -> Void) {
 
 class BrowserAgent: NSObject, NetServiceBrowserDelegate {
 	var netServices: [NetService] = []
-	let resolveCounter = 0
-	let timeout = 5
+	var timer: Timer? = nil
 
 	func netService(_ sender: NetService, didNotResolve errorDict: [String : NSNumber]) {
-		// print("Resolve error:", sender, errorDict)
+		if DEBUG { print("Resolve error:", sender, errorDict) }
+	}
+	func netServiceBrowserWillSearch(_ browser: NetServiceBrowser) {
+		if DEBUG { print("Search started") }
+		startTimer(browser)
 	}
 	func netServiceBrowserDidStopSearch(_ browser: NetServiceBrowser) {
-		// print("Search stopped")
+		if DEBUG { print("Search stopped") }
+		self.finish(browser)
 	}
 	func netServiceBrowser(_ browser: NetServiceBrowser, didFind service: NetService, moreComing: Bool) {
-		// print("service found: \(service.name)")
+		if DEBUG {print("service found: \(service.name)") }
 		netServices.append(service)
 		service.resolve(withTimeout: 5)
 		if !moreComing {
-			// print("Got services, waiting for all to finish resolve", netServices.count)
-			DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
-				self.finish(browser)
-			}
+			if DEBUG { print("Got services, waiting for all to finish resolve", netServices.count) }
+			startTimer(browser)
 		}
 	}
+	
+	func startTimer(_ browser: NetServiceBrowser) {
+		if let t = self.timer {
+			t.invalidate()
+		}
+		if DEBUG { print("starting timer for 6s") }
+		self.timer = Timer.scheduledTimer(withTimeInterval: 6.0, repeats: false) { _ in
+			browser.stop()
+		}
+	}
+	
 	func finish(_ browser: NetServiceBrowser) {
 		var services: [Service] = []
 		for ns in netServices {
