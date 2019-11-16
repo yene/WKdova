@@ -3,7 +3,6 @@ import Foundation
 
 // Add key and value to localStorage
 func setItem(key: String, value: String) {
-	print("setitem", key, value)
 	storageSuit().set(value, forKey: key)
 }
 

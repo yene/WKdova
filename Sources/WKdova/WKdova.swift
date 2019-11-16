@@ -9,7 +9,13 @@ public class WKdova: NSObject {
 		"allowSleepAgain": allowSleepAgain,
 		"setItem": setItem,
 		"getItem": getItem,
+		"removeItem": removeItem,
 		"clear": clear,
+		"setKeychain": setKeychain,
+		"getKeychain": getKeychain,
+		"removeKeychain": removeKeychain,
+		"clearKeychain": clearKeychain,
+		"browse": browse,
 	]
 
 
@@ -53,7 +59,14 @@ extension WKdova: WKScriptMessageHandler {
 				} else {
 					webView.evaluateJavaScript("window.plugins._callback(\(number), null)", completionHandler: nil)
 				}
-
+			}
+			
+			if type(of: v) == type(of: browse) { // let vt = v as? (String, @escaping (String) -> ()) -> () { // Better to just check against browse()
+				let arr = message.body as! [Any]
+				let number = arr[1] as! Int
+				browse(type: arr[0] as! String) {
+					self.webView.evaluateJavaScript("window.plugins._callback(\(number), JSON.parse('\($0)'))", completionHandler: nil)
+				}
 			}
 			if let vt = v as? (String, String) -> Void {
 				let arr = message.body as! [String]
@@ -72,8 +85,6 @@ extension WKdova: WKScriptMessageHandler {
 			if let messageBody = message.body as? [String: Any], let age = messageBody["age"] as? Int {
 				print("Age: \(age)")
 			}
-
-
 		*/
 
 	}

@@ -4,12 +4,12 @@ import Foundation
 
 func setKeychain(key: String, value: String) {
 	let keychain = KeychainSwift()
-	keychain.set(key, forKey: value)
+	keychain.set(value, forKey: key)
 }
 
-func getKeychain(key: String) -> String {
+func getKeychain(key: String) -> String? {
 	let keychain = KeychainSwift()
-	keychain.get(key)
+	return keychain.get(key)
 }
 
 // Remove single key
