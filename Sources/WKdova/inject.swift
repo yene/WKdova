@@ -1,8 +1,6 @@
 // inject.swift
 
-
 // Swift Packages don't support including assets
-
 let deviceJSON = device()
 let appJSON = app()
 let timerDisabled = isIdleTimerDisabled() ? "true" : "false"
@@ -24,10 +22,16 @@ function callWebKit(handler, message) {
 var callbacks = [];
 
 window.plugins = {
+	camera: {
+		pickImage: (maxWidth, func) => {
+			var callbackPosition = callbacks.push(func);
+			callWebKit('pickImage', [maxWidth, callbackPosition-1])();
+		},
+	},
 	insomnia: {
 		isEnabled: \(timerDisabled),
 		setEnabled: (state) => {
-			callWebKit('setIdleTimer', state)()
+			callWebKit('setIdleTimer', state)();
 		}
 	},
 	nativeStorage: {
@@ -37,31 +41,31 @@ window.plugins = {
 		},
 		getItem: (key, func) => {
 			var callbackPosition = callbacks.push(func);
-			callWebKit('getItem', [key, callbackPosition-1])()
+			callWebKit('getItem', [key, callbackPosition-1])();
 		},
 		removeItem: (key) => {
-			callWebKit('removeItem', key)()
+			callWebKit('removeItem', key)();
 		},
 		clear: callWebKit('clear'),
 	},
 	keychain: {
 		setItem: (key, value) => {
 			console.log(key, value);
-			callWebKit('setKeychain', [key, value])()
+			callWebKit('setKeychain', [key, value])();
 		},
 		getItem: (key, func) => {
 			var callbackPosition = callbacks.push(func);
-			callWebKit('getKeychain', [key, callbackPosition-1])()
+			callWebKit('getKeychain', [key, callbackPosition-1])();
 		},
 		removeItem: (key) => {
-			callWebKit('removeKeychain', key)()
+			callWebKit('removeKeychain', key)();
 		},
 		clear: callWebKit('clearKeychain'),
 	},
 	mDNS: {
 		browse: (type, func) => {
 			var callbackPosition = callbacks.push(func);
-			callWebKit('browse', [type, callbackPosition-1])()
+			callWebKit('browse', [type, callbackPosition-1])();
 		},
 	},
 	device: JSON.parse('\(deviceJSON)'),

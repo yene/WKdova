@@ -11,6 +11,7 @@ A Swift Package which offers WKWebview turnkey solutions for common tasks. Think
 - [ ] Push notification
 - [ ] network information
 - [ ] GPS location
+- [x] Take picture
 
 ## How to use
 
@@ -72,6 +73,9 @@ window.plugins.keychain.clear();
 
 // mDNS (will search for 6 seconds)
 window.plugins.mDNS.browse('_http._tcp', console.log);
+
+// pickImage takes maxWidth, callback receives a base64 encoded JPG
+window.plugins.camera.pickImage(900, setImage);
 ```
 
 ## TypeScript definition

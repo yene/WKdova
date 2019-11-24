@@ -40,7 +40,14 @@ export interface Service {
 declare global {
 	interface Window {
 		plugins: {
-			test: Service,
+			camera: {
+				/**
+				 * Callback receives a base64 encoded JPG or null.
+				 *
+				 * `image.src = 'data:image/jpeg;base64,' + jpgdata;`
+				 * */
+				pickImage: (cb: (maxWidth: number, jpgdata: string) => void) => void,
+			}
 			insomnia: {
 				/**
 				 * If set to true the screen is prevented from turning off.
@@ -56,13 +63,13 @@ declare global {
 			},
 			nativeStorage: {
 				setItem: (key: string, value: string) => void,
-				getItem: (key: string, cb: (string) => void) => void,
+				getItem: (key: string, cb: (value: string) => void) => void,
 				removeItem: (key: string) => void,
 				clear: () => void,
 			},
 			keychain: {
 				setItem: (key: string, value: string) => void,
-				getItem: (key: string, cb: (string) => void) => void,
+				getItem: (key: string, cb: (value: string) => void) => void,
 				removeItem: (key: string) => void,
 				clear: () => void,
 			},

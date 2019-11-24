@@ -1,14 +1,9 @@
 
 import WebKit
 
-/// 🚲 A two-wheeled, human-powered mode of transportation.
-/**
-Setup the bridge between Swift and JavaScript to the WKWebView
-
-- Parameter webView: A WKWebView instance. See the README for an example.
-*/
 public class WKdova: NSObject {
 	var webView: WKWebView
+	var imagePicker: ImagePicker!
 	let DEBUG = true
 	var methods: [String : Any] = [
 		"setItem": setItem,
@@ -21,12 +16,15 @@ public class WKdova: NSObject {
 		"clearKeychain": clearKeychain,
 		"browse": browse,
 		"setIdleTimer": setIdleTimer,
+		"pickImage": "pickImage",
 	]
 
 	public init(_ webView: WKWebView) {
 		self.webView = webView
 		super.init()
 		setupBridge(webView)
+		let viewController = UIApplication.shared.windows.first!.rootViewController
+		self.imagePicker = ImagePicker(presentationController: viewController!)
 	}
 
 	func setupBridge(_ webView: WKWebView) {
@@ -46,6 +44,26 @@ extension WKdova: WKScriptMessageHandler {
 		if let v = methods[message.name] {
 			// Taking message body apart and trying to make sense of it.
 			if DEBUG {print("Calling", message.name)}
+			
+			if message.name == "pickImage" {
+				let arr = message.body as! [Any]
+				let maxWidth = arr[0] as! CGFloat
+				let number = arr[1] as! Int
+				imagePicker.present(from: self.webView) {
+					if var image = $0 {
+						if image.size.width > maxWidth {
+							image = resizeImage(image: image, width: maxWidth)
+						}
+						let jpg = image.jpegData(compressionQuality: 0.75)!
+						let encodedData = jpg.base64EncodedString()
+						self.webView.evaluateJavaScript("window.plugins._callback(\(number), '\(encodedData)')", completionHandler: nil)
+					} else {
+						self.webView.evaluateJavaScript("window.plugins._callback(\(number), null)", completionHandler: nil)
+					}
+				}
+				return
+			}
+			
 			if let vt = v as? () -> Void {
 				vt()
 			} else if let vt = v as? (String) -> Void {
@@ -81,11 +99,17 @@ extension WKdova: WKScriptMessageHandler {
 			}
 
 		}
-		/* if message is json, it will be turned into a native object, boolean type is a nsnumber
-			if let messageBody = message.body as? [String: Any], let age = messageBody["age"] as? Int {
-				print("Age: \(age)")
-			}
-		*/
 
 	}
+}
+
+func resizeImage(image: UIImage, width: CGFloat) -> UIImage {
+	let ratio = width / image.size.width
+	let newSize = CGSize(width: width, height: image.size.height * ratio)
+	let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+	UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+	image.draw(in: rect)
+	let newImage = UIGraphicsGetImageFromCurrentImageContext()
+	UIGraphicsEndImageContext()
+	return newImage!
 }
