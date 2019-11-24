@@ -66,7 +66,7 @@ window.plugins.nativeStorage.clear();
 
 // keychain
 window.plugins.keychain.setItem('key', 'secret');
-window.plugins.keychain.getItem('key');
+window.plugins.keychain.getItem('key', console.log);
 window.plugins.keychain.removeItem('key')
 window.plugins.keychain.clear();
 
