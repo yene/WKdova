@@ -46,9 +46,22 @@ export interface Coordinates {
 	longitude: number;
 }
 
+export enum ConnectionType {
+	NONE = "No Connection",
+	WIFI = "Wifi",
+	CELL_2G = "2G",
+	CELL_3G = "3G",
+	CELL_4G = "4G",
+	UNKNOWN = "Unknown",
+}
+
 declare global {
 	interface Window {
 		plugins: {
+			connection: {
+				type: ConnectionType,
+				getType: (cb: (type: ConnectionType) => void) => void,
+			}
 			geolocation: {
 				/**
 				 * Callback receives {coords: {latitude: X, longitude: Y}} or null.

@@ -1,12 +1,13 @@
 // inject.swift
 
-// Swift Packages don't support including assets
-let deviceJSON = device()
-let appJSON = app()
-let timerDisabled = isIdleTimerDisabled() ? "true" : "false"
-
-// TODO: don't grow callbacks forever
-let injectScript = """
+func injectScript() -> String {
+	let deviceJSON = device()
+	let appJSON = app()
+	let timerDisabled = isIdleTimerDisabled() ? "true" : "false"
+	let nt = Reachability.getNetworkType().trackingId
+	
+	// TODO: don't grow callbacks forever
+	return """
 function callWebKit(handler, message) {
 	return function() {
 		try {
@@ -22,6 +23,13 @@ function callWebKit(handler, message) {
 var callbacks = [];
 
 window.plugins = {
+	connection: {
+		type: '\(nt)',
+		getType: (func) => {
+			var callbackPosition = callbacks.push(func);
+			callWebKit('getNetworkType', callbackPosition-1)();
+		}
+	},
 	geolocation: {
 		getCurrentPosition: (func) => {
 			var callbackPosition = callbacks.push(func);
@@ -85,3 +93,4 @@ window.plugins._callback = function(number, value) {
 }
 
 """
+}

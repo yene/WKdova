@@ -9,7 +9,7 @@ A Swift Package which offers WKWebview turnkey solutions for common tasks. Think
 - [x] mDNS (Bonjour)
 - [ ] Global native dialogs
 - [ ] Push notification
-- [ ] network information
+- [x] network information
 - [X] GPS location (requires NSLocationAlwaysAndWhenInUseUsageDescription, NSLocationAlwaysUsageDescription, NSLocationWhenInUseUsageDescription)
 - [x] Take picture (requires NSPhotoLibraryUsageDescription, NSCameraUsageDescription)
 
@@ -76,6 +76,14 @@ window.plugins.mDNS.browse('_http._tcp', console.log);
 
 // pickImage takes maxWidth, callback receives a base64 encoded JPG
 window.plugins.camera.pickImage(900, setImage);
+
+// gps coordinates
+window.plugins.geolocation.getCurrentPosition(console.log);
+
+// connection type
+console.log(window.plugins.connection.type);
+window.plugins.connection.getType(console.log);
+
 ```
 
 ## TypeScript definition

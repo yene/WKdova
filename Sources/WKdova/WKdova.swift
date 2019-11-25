@@ -18,6 +18,7 @@ public class WKdova: NSObject {
 		"setIdleTimer": setIdleTimer,
 		"pickImage": "pickImage",
 		"getCurrentPosition": "getCurrentPosition",
+		"getNetworkType": "getNetworkType",
 	]
 	
 	public init(_ webView: WKWebView) {
@@ -31,7 +32,7 @@ public class WKdova: NSObject {
 	func setupBridge(_ webView: WKWebView) {
 		self.webView = webView
 		let controller = webView.configuration.userContentController
-		let script = WKUserScript(source: injectScript, injectionTime: .atDocumentStart, forMainFrameOnly: true)
+		let script = WKUserScript(source: injectScript(), injectionTime: .atDocumentStart, forMainFrameOnly: true)
 		// injects JavaScript
 		controller.addUserScript(script)
 		for (key, _) in methods {
@@ -74,9 +75,17 @@ extension WKdova: WKScriptMessageHandler {
 						self.webView.evaluateJavaScript("window.plugins._callback(\(number), \(s))", completionHandler: nil)
 					} else {
 						self.webView.evaluateJavaScript("window.plugins._callback(\(number), null)", completionHandler: nil)
-						print("Get Location failed \(getLocation.didFailWithError)")
+						print("Get Location failed \(String(describing: getLocation.didFailWithError))")
 					}
 				}
+				return
+			}
+			
+			if message.name == "getNetworkType" {
+				let number = message.body as! Int
+				let nt = Reachability.getNetworkType()
+				self.webView.evaluateJavaScript("window.plugins._callback(\(number), '\(nt.trackingId)')", completionHandler: nil)
+				self.webView.evaluateJavaScript("window.plugins.connection.type = '\(nt.trackingId)'", completionHandler: nil)
 				return
 			}
 			
