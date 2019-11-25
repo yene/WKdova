@@ -22,6 +22,12 @@ function callWebKit(handler, message) {
 var callbacks = [];
 
 window.plugins = {
+	geolocation: {
+		getCurrentPosition: (func) => {
+			var callbackPosition = callbacks.push(func);
+			callWebKit('getCurrentPosition', callbackPosition-1)();
+		},
+	},
 	camera: {
 		pickImage: (maxWidth, func) => {
 			var callbackPosition = callbacks.push(func);

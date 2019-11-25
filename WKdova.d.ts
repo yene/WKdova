@@ -37,9 +37,24 @@ export interface Service {
   txtRecord: StringMap;
 }
 
+export interface Position {
+	coords: Coordinates;
+}
+
+export interface Coordinates {
+	latitude: number;
+	longitude: number;
+}
+
 declare global {
 	interface Window {
 		plugins: {
+			geolocation: {
+				/**
+				 * Callback receives {coords: {latitude: X, longitude: Y}} or null.
+				 * */
+				getCurrentPosition: (cb: (position: Position) => void) => void,
+			}
 			camera: {
 				/**
 				 * Callback receives a base64 encoded JPG or null.

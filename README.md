@@ -10,8 +10,8 @@ A Swift Package which offers WKWebview turnkey solutions for common tasks. Think
 - [ ] Global native dialogs
 - [ ] Push notification
 - [ ] network information
-- [ ] GPS location
-- [x] Take picture
+- [X] GPS location (requires NSLocationAlwaysAndWhenInUseUsageDescription, NSLocationAlwaysUsageDescription, NSLocationWhenInUseUsageDescription)
+- [x] Take picture (requires NSPhotoLibraryUsageDescription, NSCameraUsageDescription)
 
 ## How to use
 

@@ -17,8 +17,9 @@ public class WKdova: NSObject {
 		"browse": browse,
 		"setIdleTimer": setIdleTimer,
 		"pickImage": "pickImage",
+		"getCurrentPosition": "getCurrentPosition",
 	]
-
+	
 	public init(_ webView: WKWebView) {
 		self.webView = webView
 		super.init()
@@ -26,7 +27,7 @@ public class WKdova: NSObject {
 		let viewController = UIApplication.shared.windows.first!.rootViewController
 		self.imagePicker = ImagePicker(presentationController: viewController!)
 	}
-
+	
 	func setupBridge(_ webView: WKWebView) {
 		self.webView = webView
 		let controller = webView.configuration.userContentController
@@ -59,6 +60,21 @@ extension WKdova: WKScriptMessageHandler {
 						self.webView.evaluateJavaScript("window.plugins._callback(\(number), '\(encodedData)')", completionHandler: nil)
 					} else {
 						self.webView.evaluateJavaScript("window.plugins._callback(\(number), null)", completionHandler: nil)
+					}
+				}
+				return
+			}
+			
+			if message.name == "getCurrentPosition" {
+				let number = message.body as! Int
+				let getLocation = GetLocation()
+				getLocation.run {
+					if let location = $0 {
+						let s = "{coords:{latitude:\(location.coordinate.latitude), longitude:\(location.coordinate.longitude)}}"
+						self.webView.evaluateJavaScript("window.plugins._callback(\(number), \(s))", completionHandler: nil)
+					} else {
+						self.webView.evaluateJavaScript("window.plugins._callback(\(number), null)", completionHandler: nil)
+						print("Get Location failed \(getLocation.didFailWithError)")
 					}
 				}
 				return
@@ -97,9 +113,7 @@ extension WKdova: WKScriptMessageHandler {
 				print("no method found that matches", type(of: v))
 				print("make sure your methods whitelist is up to date")
 			}
-
 		}
-
 	}
 }
 
