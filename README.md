@@ -88,3 +88,5 @@ window.plugins.connection.getType(console.log);
 
 ## TypeScript definition
 Copy TypeScript definition file `WKdova.d.ts` to get the type support and juicy autocomplete.
+
+![](definitions.png)

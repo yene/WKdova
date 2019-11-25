@@ -93,7 +93,7 @@ extension WKdova: WKScriptMessageHandler {
 				vt()
 			} else if let vt = v as? (String) -> Void {
 				vt(message.body as! String)
-			} else if let vt = v as? (String) -> String? {
+			} else if let vt = v as? (String) -> String? { // getitems
 				let arr = message.body as! [Any]
 				let number = arr[1] as! Int
 				if let result = vt(arr[0] as! String) {

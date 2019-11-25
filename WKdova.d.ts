@@ -66,7 +66,7 @@ declare global {
 				/**
 				 * Callback receives {coords: {latitude: X, longitude: Y}} or null.
 				 * */
-				getCurrentPosition: (cb: (position: Position) => void) => void,
+				getCurrentPosition: (cb: (position: Position | null) => void) => void,
 			}
 			camera: {
 				/**
@@ -74,7 +74,7 @@ declare global {
 				 *
 				 * `image.src = 'data:image/jpeg;base64,' + jpgdata;`
 				 * */
-				pickImage: (cb: (maxWidth: number, jpgdata: string) => void) => void,
+				pickImage: (maxWidth: number, cb: (jpgdata: string | null) => void) => void,
 			}
 			insomnia: {
 				/**
@@ -91,13 +91,13 @@ declare global {
 			},
 			nativeStorage: {
 				setItem: (key: string, value: string) => void,
-				getItem: (key: string, cb: (value: string) => void) => void,
+				getItem: (key: string, cb: (value: string | null) => void) => void,
 				removeItem: (key: string) => void,
 				clear: () => void,
 			},
 			keychain: {
 				setItem: (key: string, value: string) => void,
-				getItem: (key: string, cb: (value: string) => void) => void,
+				getItem: (key: string, cb: (value: string | null) => void) => void,
 				removeItem: (key: string) => void,
 				clear: () => void,
 			},
