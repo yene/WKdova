@@ -34,7 +34,7 @@ override func viewDidLoad() {
 	if let url = Bundle.main.url(forResource: "index", withExtension: "html", subdirectory: "") {
 		webView.load(URLRequest(url: url))
 	}
-	WKdova(webView)
+
 }
 ```
 
@@ -83,6 +83,9 @@ window.plugins.geolocation.getCurrentPosition(console.log);
 // connection type
 console.log(window.plugins.connection.type);
 window.plugins.connection.getType(console.log);
+
+// utils
+window.plugins.utils.openURL('https://www.google.com');
 
 ```
 

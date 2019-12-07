@@ -82,6 +82,11 @@ window.plugins = {
 			callWebKit('browse', [type, callbackPosition-1])();
 		},
 	},
+	utils: {
+		openURL: (url) => {
+			callWebKit('openURL', url)();
+		}
+	},
 	device: JSON.parse('\(deviceJSON)'),
 	app: JSON.parse('\(appJSON)'),
 }

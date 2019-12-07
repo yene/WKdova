@@ -19,6 +19,7 @@ public class WKdova: NSObject {
 		"pickImage": "pickImage",
 		"getCurrentPosition": "getCurrentPosition",
 		"getNetworkType": "getNetworkType",
+		"openURL": openURL,
 	]
 	
 	public init(_ webView: WKWebView) {

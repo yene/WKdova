@@ -29,16 +29,16 @@ open class ImagePicker: NSObject {
 	
 	public func present(from sourceView: UIView, cb: @escaping (UIImage?) -> Void) {
 		let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-		if let action = self.action(for: .camera, title: "Take photo") {
+		if let action = self.action(for: .camera, title: "Take Picture") {
 			alertController.addAction(action)
 		}
-		
+		/*
 		if let action = self.action(for: .savedPhotosAlbum, title: "Camera roll") {
 			alertController.addAction(action)
-		}/*
-		if let action = self.action(for: .photoLibrary, title: "Photo library") {
-		alertController.addAction(action)
 		}*/
+		if let action = self.action(for: .photoLibrary, title: "From Library") {
+			alertController.addAction(action)
+		}
 		alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 		if UIDevice.current.userInterfaceIdiom == .pad {
 			alertController.popoverPresentationController?.sourceView = sourceView

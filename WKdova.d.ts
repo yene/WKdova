@@ -105,6 +105,10 @@ declare global {
 				/** Searches for 6 seconds, then calls `cb` with the results. */
 				browse: (type: string, cb: ([Service]) => void) => void,
 			},
+			utils: {
+				/** openURL tries to launch the app associated with the URL, does nothing if it fails. */
+				openURL: (url: string) => void,
+			}
 			device: Device,
 			app: App,
 		};
