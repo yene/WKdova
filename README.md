@@ -13,6 +13,8 @@ A Swift Package which offers WKWebview turnkey solutions for common tasks. Think
 - [X] GPS location (requires NSLocationAlwaysAndWhenInUseUsageDescription, NSLocationAlwaysUsageDescription, NSLocationWhenInUseUsageDescription)
 - [x] Take picture (requires NSPhotoLibraryUsageDescription, NSCameraUsageDescription)
 
+When should you not use a WKWebView? When you want to access the filesystem, or in general when you need to send lots of data back and forth between the view and the OS.
+
 ## How to use
 
 Setup a WKWebview

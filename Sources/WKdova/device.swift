@@ -10,6 +10,8 @@ struct Device: Codable {
 	var uuid: String // identifierForVendor
 	var isVirtual: Bool // is running in simulator
 	var version: String
+	var language: String
+	var region: String
 }
 
 func device() -> String {
@@ -20,7 +22,9 @@ func device() -> String {
 		platform: "iOS",
 		uuid: UIDevice.current.identifierForVendor!.uuidString,
 		isVirtual: isSimulator(),
-		version: UIDevice.current.systemVersion
+		version: UIDevice.current.systemVersion,
+		language: Locale.preferredLanguages.first!,
+		region: NSLocale.current.regionCode! // This value is nil if you don't set the simulators language manually...
 	)
 	let jsonData = try! JSONEncoder().encode(device)
 	let jsonString = String(data: jsonData, encoding: .utf8)!

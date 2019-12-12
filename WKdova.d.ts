@@ -26,6 +26,10 @@ export interface Device {
 	uuid: string;
 	/** true if in Simulator */
 	isVirtual: boolean;
+	/** The preferred language, for example "en-US". Should be the same as navigator.language */
+	language: string;
+	/** Country code, for example "US" */
+	region: string;
 }
 
 interface StringMap { [key: string]: string; }
