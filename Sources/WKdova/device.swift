@@ -12,6 +12,7 @@ struct Device: Codable {
 	var version: String
 	var language: String
 	var region: String
+	var timezone: String
 }
 
 func device() -> String {
@@ -24,7 +25,8 @@ func device() -> String {
 		isVirtual: isSimulator(),
 		version: UIDevice.current.systemVersion,
 		language: Locale.preferredLanguages.first!,
-		region: NSLocale.current.regionCode! // This value is nil if you don't set the simulators language manually...
+		region: NSLocale.current.regionCode ?? "", // This value is nil if you don't set the simulators language manually...
+		timezone: TimeZone.current.identifier
 	)
 	let jsonData = try! JSONEncoder().encode(device)
 	let jsonString = String(data: jsonData, encoding: .utf8)!

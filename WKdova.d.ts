@@ -30,6 +30,8 @@ export interface Device {
 	language: string;
 	/** Country code, for example "US" */
 	region: string;
+	/** Timezone, for example "Europe/Zurich" */
+	timezone: string;
 }
 
 interface StringMap { [key: string]: string; }
