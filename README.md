@@ -27,10 +27,12 @@ override func viewDidLoad() {
 	let webView = WKWebView(frame: .zero)
 	view.addSubview(webView)
 	webView.translatesAutoresizingMaskIntoConstraints = false
-	webView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-	webView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-	webView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-	webView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+	NSLayoutConstraint.activate([
+		webView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+		webView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+		webView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+		webView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+	])
 	webView.scrollView.bounces = false;
 	webView.isOpaque = false;
 	if let url = Bundle.main.url(forResource: "index", withExtension: "html", subdirectory: "") {
