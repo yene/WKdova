@@ -34,6 +34,7 @@ override func viewDidLoad() {
 		webView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
 	])
 	webView.scrollView.bounces = false;
+	webView.scrollView.contentInsetAdjustmentBehavior = .never; // Disable the safe area behaviour.
 	webView.isOpaque = false;
 	if let url = Bundle.main.url(forResource: "index", withExtension: "html", subdirectory: "") {
 		webView.load(URLRequest(url: url))

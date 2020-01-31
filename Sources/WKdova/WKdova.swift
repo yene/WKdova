@@ -2,9 +2,10 @@
 import WebKit
 
 public class WKdova: NSObject {
+	public var DEBUG = false
 	var webView: WKWebView
 	var imagePicker: ImagePicker!
-	let DEBUG = true
+	
 	var methods: [String : Any] = [
 		"setItem": setItem,
 		"getItem": getItem,
